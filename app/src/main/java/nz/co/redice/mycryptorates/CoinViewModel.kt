@@ -3,11 +3,14 @@ package nz.co.redice.mycryptorates
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
-import io.reactivex.android.schedulers.AndroidSchedulers
+import com.google.gson.Gson
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import nz.co.redice.mycryptorates.api.ApiFactory
 import nz.co.redice.mycryptorates.database.AppDataBase
+import nz.co.redice.mycryptorates.pojo.CoinPriceInfo
+import nz.co.redice.mycryptorates.pojo.CoinPriceInfoRawData
+import java.util.concurrent.TimeUnit
 
 class CoinViewModel(application: Application) : AndroidViewModel(application) {
     private val db = AppDataBase.getInstance(application)
@@ -15,42 +18,61 @@ class CoinViewModel(application: Application) : AndroidViewModel(application) {
     private val compositeDisposable = CompositeDisposable()
     private val TAG = this::class.java.simpleName.toString()
 
+    init {
+        loadData()
+    }
 
-    fun loadData() {
+    private fun loadData() {
 
         val disposable = ApiFactory.apiService.getTopCoinsInfo()
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
+
             .map {
                 it.data?.map {
                     it.coinInfo?.name
                 }?.joinToString(",")
             }
-            .map {
-                Log.d(TAG, it)
-                it
-            }
             .flatMap {
                 ApiFactory.apiService.getFullPriceList(fSyms = it)
             }
+            .map { getPriceListFromRawData(it) }
+            .subscribeOn(Schedulers.io())
+            .delaySubscription(5, TimeUnit.SECONDS)
+            .repeat()
+            .retry()
             .subscribe({
-                Log.d(TAG, it.toString())
+                it?.let { list -> db.coinPriceInfoDao().insertPriceList(list) }
             }, {
-                Log.e(TAG, it.message.toString())
+                Log.e(TAG, it.stackTraceToString())
             })
-
-//val disposable = ApiFactory.apiService.getFullPriceList(fSyms = "BTC,UNI,ETH,LINK,TRX,BCH,XRP,EOS,NEO,BNB")
-//            .subscribeOn(Schedulers.io())
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe({
-//                Log.d(TAG, it.toString())
-//            }, {
-//                Log.e(TAG, it.message.toString())
-//            })
-
 
         compositeDisposable.add(disposable)
     }
+
+
+    private fun getPriceListFromRawData(coinPriceInfoRawData: CoinPriceInfoRawData)
+            : List<CoinPriceInfo>? {
+
+        val jsonObject = coinPriceInfoRawData.CoinPriceInfoGsonObject ?: return null
+        val result = ArrayList<CoinPriceInfo>()
+
+        val coinKeySet = jsonObject.keySet()
+
+        for (coinKey in coinKeySet) {
+            val currencyJson = jsonObject.getAsJsonObject(coinKey)
+            val currencyKeySet = currencyJson.keySet()
+            for (currencyKey in currencyKeySet) {
+                val priceInfo = Gson().fromJson(
+                    currencyJson.getAsJsonObject(currencyKey),
+                    CoinPriceInfo::class.java
+                )
+                result.add(priceInfo)
+            }
+        }
+        return result
+    }
+
+    fun getDetailInfo(fSym: String) = db.coinPriceInfoDao().getPriceInfoAboutCoin(fSym)
+
 
     override fun onCleared() {
         compositeDisposable.dispose()

@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">My Crypto Rates</string>
+    <string name="symbols_template">%s / %s</string>
+    <string name="updated_template">updated at %s</string>
 </resources>
