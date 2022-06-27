@@ -4,10 +4,10 @@ package nz.co.redice.mycryptorates.domain
 data class CoinInfo(
     val fromSymbol: String,
     val toSymbol: String?,
-    val price: Double?,
+    val price: String?,
     val lastUpdate: Long?,
-    val highDay: Double?,
-    val lowDay: Double?,
+    val highDay: String?,
+    val lowDay: String?,
     val lastMarket: String?,
     val imageUrl: String?
 )

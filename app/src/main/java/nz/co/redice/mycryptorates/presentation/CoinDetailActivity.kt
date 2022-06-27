@@ -9,6 +9,8 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_coin_detail.*
 import nz.co.redice.mycryptorates.R
 import nz.co.redice.mycryptorates.data.mapper.CoinMapper
+import nz.co.redice.mycryptorates.data.network.ApiFactory
+import nz.co.redice.mycryptorates.utils.convertTimestampToTime
 
 class CoinDetailActivity : AppCompatActivity() {
     private lateinit var viewModel: CoinViewModel
@@ -21,25 +23,23 @@ class CoinDetailActivity : AppCompatActivity() {
             finish()
             return
         }
-        val fromSymbol = intent.getStringExtra(EXTRA_FROM_SYMBOL)
         viewModel = ViewModelProvider(this)[CoinViewModel::class.java]
-
-        fromSymbol?.let {
-//            viewModel.getDetailInfo(it).observe(this) {
-//                tvPriceValue.text = it.price.toString()
-//                tvMinPriceValue.text = it.lowDay.toString()
-//                tvMaxPriceValue.text = it.highDay.toString()
-//                tvLastDealValue.text = it.lastMarket
-//                tvUpdatedAtValue.text = it.getFormattedTime()
-//                tvFromSymbol.text = it.fromSymbol
-//                tvToCurrency.text = it.toSymbol
-//                Picasso.get().load(it.getFullImageUrl()).into(ivLogoCoinDetail)
-//            }
+        val fromSymbol = intent.getStringExtra(EXTRA_FROM_SYMBOL) ?: EMPTY_STRING
+        viewModel.getDetailInfo(fromSymbol).observe(this) {
+            tvPriceValue.text = it.price.toString()
+            tvMinPriceValue.text = it.lowDay.toString()
+            tvMaxPriceValue.text = it.highDay.toString()
+            tvLastDealValue.text = it.lastMarket
+            tvUpdatedAtValue.text = convertTimestampToTime(it.lastUpdate)
+            tvFromSymbol.text = it.fromSymbol
+            tvToCurrency.text = it.toSymbol
+            Picasso.get().load(ApiFactory.BASE_IMAGE_URL + it.imageUrl).into(ivLogoCoinDetail)
         }
     }
 
     companion object {
         private const val EXTRA_FROM_SYMBOL = "fSym"
+        private const val EMPTY_STRING = ""
 
         fun newIntent(context: Context, fromSymbol: String): Intent {
             val intent = Intent(context, CoinDetailActivity::class.java)

@@ -10,12 +10,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_coin_info.view.*
 import nz.co.redice.mycryptorates.R
+import nz.co.redice.mycryptorates.data.network.ApiFactory
 import nz.co.redice.mycryptorates.data.network.model.CoinInfoDto
+import nz.co.redice.mycryptorates.domain.CoinInfo
+import nz.co.redice.mycryptorates.utils.convertTimestampToTime
 
 class CoinInfoAdapter(private val context: Context) :
     RecyclerView.Adapter<CoinInfoAdapter.CoinInfoViewHolder>() {
 
-    var coinInfoList: List<CoinInfoDto> = listOf()
+    var coinInfoList: List<CoinInfo> = listOf()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -32,14 +35,17 @@ class CoinInfoAdapter(private val context: Context) :
     override fun onBindViewHolder(holder: CoinInfoViewHolder, position: Int) {
         val coin = coinInfoList[position]
         with(holder) {
-            val symbolsTemplate = context.resources.getString(R.string.symbols_template)
-            val updatedTemplate = context.resources.getString(R.string.updated_template)
-            tvSymbols.text = String.format(symbolsTemplate, coin.fromSymbol, coin.toSymbol)
-            tvPrice.text = coin.price.toString()
-            tvLastUpdated.text = String.format(updatedTemplate, coin.getFormattedTime())
-            Picasso.get().load(coin.getFullImageUrl()).into(ivLogoCoin)
-            itemView.setOnClickListener {
-                onCoinClickListener?.onCoinClicked(coin)
+            with(coin) {
+                val symbolsTemplate = context.resources.getString(R.string.symbols_template)
+                val updatedTemplate = context.resources.getString(R.string.updated_template)
+                tvSymbols.text = String.format(symbolsTemplate, fromSymbol, toSymbol)
+                tvPrice.text = price.toString()
+                tvLastUpdated.text =
+                    String.format(updatedTemplate, convertTimestampToTime(lastUpdate))
+                Picasso.get().load(ApiFactory.BASE_IMAGE_URL + imageUrl).into(ivLogoCoin)
+                itemView.setOnClickListener {
+                    onCoinClickListener?.onCoinClicked(this)
+                }
             }
         }
     }
@@ -55,6 +61,6 @@ class CoinInfoAdapter(private val context: Context) :
     }
 
     interface OnCoinClickListener {
-        fun onCoinClicked(coinPriceInfo: CoinInfoDto)
+        fun onCoinClicked(coinPriceInfo: CoinInfo)
     }
 }
