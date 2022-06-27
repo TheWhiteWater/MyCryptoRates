@@ -25,7 +25,7 @@ data class CoinInfoDto(
     val flags: String?,
     @SerializedName("PRICE")
     @Expose
-    val price: String?,
+    val price: Long?,
     @SerializedName("LASTUPDATE")
     @Expose
     val lastUpdate: Long?,

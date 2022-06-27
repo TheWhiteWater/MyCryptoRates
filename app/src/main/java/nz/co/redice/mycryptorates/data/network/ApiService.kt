@@ -29,6 +29,6 @@ interface ApiService {
 
         const val QUERY_PARAM_TO_SYMBOLS = "tsyms"
         const val QUERY_PARAM_FROM_SYMBOLS = "fsyms"
-        const val CURRENCY = "NZD"
+        const val CURRENCY = "USD"
     }
 }
