@@ -41,6 +41,6 @@ class CoinInfoAdapter(private val context: Context) :
     }
 
     interface OnCoinClickListener {
-        fun onCoinClicked(coinPriceInfo: CoinInfo)
+        fun onCoinClicked(coinInfo: CoinInfo)
     }
 }

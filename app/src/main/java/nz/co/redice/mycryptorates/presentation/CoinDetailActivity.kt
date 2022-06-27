@@ -23,7 +23,7 @@ class CoinDetailActivity : AppCompatActivity() {
         val fromSymbol = intent.getStringExtra(EXTRA_FROM_SYMBOL) ?: EMPTY_SYMBOL
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container_view, CoinDetailFragment.newInstance(fromSymbol))
+                .replace(R.id.fragment_container_large, CoinDetailFragment.newInstance(fromSymbol))
                 .commit()
         }
     }

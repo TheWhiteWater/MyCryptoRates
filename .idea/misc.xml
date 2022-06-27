@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/workspace/MyCryptoRates/app/src/main/res/layout-land/activity_coin_list.xml" value="0.1" />
         <entry key="..\:/workspace/MyCryptoRates/app/src/main/res/layout/activity_coin_detail.xml" value="0.4" />
         <entry key="..\:/workspace/MyCryptoRates/app/src/main/res/layout/activity_coin_list.xml" value="0.3703125" />
         <entry key="..\:/workspace/MyCryptoRates/app/src/main/res/layout/fragment_coin_detail.xml" value="0.3703125" />
