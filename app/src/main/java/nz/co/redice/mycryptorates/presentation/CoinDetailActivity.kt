@@ -4,13 +4,14 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
-import com.squareup.picasso.Picasso
+import androidx.fragment.app.FragmentManager
+import nz.co.redice.mycryptorates.R
 import nz.co.redice.mycryptorates.databinding.ActivityCoinDetailBinding
 
 class CoinDetailActivity : AppCompatActivity() {
-    private lateinit var viewModel: CoinViewModel
-    private val binding by lazy { ActivityCoinDetailBinding.inflate(layoutInflater) }
+    private val binding by lazy {
+        ActivityCoinDetailBinding.inflate(layoutInflater)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,25 +20,17 @@ class CoinDetailActivity : AppCompatActivity() {
             finish()
             return
         }
-        viewModel = ViewModelProvider(this)[CoinViewModel::class.java]
-        val fromSymbol = intent.getStringExtra(EXTRA_FROM_SYMBOL) ?: EMPTY_STRING
-        viewModel.getDetailInfo(fromSymbol).observe(this) {
-            with(binding) {
-                tvPrice.text = it.price.toString()
-                tvMinPrice.text = it.lowDay.toString()
-                tvMaxPrice.text = it.highDay.toString()
-                tvLastMarket.text = it.lastMarket
-                tvLastUpdate.text = it.lastUpdate
-                tvFromSymbol.text = it.fromSymbol
-                tvToSymbol.text = it.toSymbol
-                Picasso.get().load(it.imageUrl).into(ivLogoCoin)
-            }
+        val fromSymbol = intent.getStringExtra(EXTRA_FROM_SYMBOL) ?: EMPTY_SYMBOL
+        if (savedInstanceState == null) {
+            supportFragmentManager.beginTransaction()
+                .replace(R.id.fragment_container_view, CoinDetailFragment.newInstance(fromSymbol))
+                .commit()
         }
     }
 
     companion object {
         private const val EXTRA_FROM_SYMBOL = "fSym"
-        private const val EMPTY_STRING = ""
+        private const val EMPTY_SYMBOL = ""
 
         fun newIntent(context: Context, fromSymbol: String): Intent {
             val intent = Intent(context, CoinDetailActivity::class.java)
