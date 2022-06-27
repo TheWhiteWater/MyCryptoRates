@@ -1,5 +1,11 @@
 <resources>
-    <string name="app_name">My Crypto Rates</string>
+    <string name="app_name">CryptoApp</string>
     <string name="symbols_template">%s / %s</string>
-    <string name="updated_template">updated at %s</string>
+    <string name="last_update_template">Last update: %s</string>
+    <string name="slash">/</string>
+    <string name="price_label">Price:</string>
+    <string name="min_price_label">Min/Day:</string>
+    <string name="max_price_label">Max/Day:</string>
+    <string name="last_market_label">Last deal:</string>
+    <string name="last_updated_label">Updated:</string>
 </resources>

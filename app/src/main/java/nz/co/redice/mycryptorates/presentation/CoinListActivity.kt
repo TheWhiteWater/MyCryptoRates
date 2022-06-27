@@ -3,35 +3,35 @@ package nz.co.redice.mycryptorates.presentation
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import kotlinx.android.synthetic.main.activity_coin_price_list.*
-import nz.co.redice.mycryptorates.R
-import nz.co.redice.mycryptorates.presentation.adapters.CoinInfoAdapter
-import nz.co.redice.mycryptorates.data.network.model.CoinInfoDto
+import nz.co.redice.mycryptorates.databinding.ActivityCoinListBinding
 import nz.co.redice.mycryptorates.domain.CoinInfo
+import nz.co.redice.mycryptorates.presentation.adapters.CoinInfoAdapter
 
-class CoinPriceListActivity : AppCompatActivity() {
+class CoinListActivity : AppCompatActivity() {
 
     private lateinit var viewModel: CoinViewModel
+    private val binding by lazy { ActivityCoinListBinding.inflate(layoutInflater) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_coin_price_list)
+        setContentView(binding.root)
         val adapter = CoinInfoAdapter(this.baseContext)
         adapter.onCoinClickListener = object : CoinInfoAdapter.OnCoinClickListener {
             override fun onCoinClicked(coinPriceInfo: CoinInfo) {
                 val intent = CoinDetailActivity.newIntent(
-                    this@CoinPriceListActivity,
+                    this@CoinListActivity,
                     coinPriceInfo.fromSymbol
                 )
                 startActivity(intent)
             }
         }
 
-        recycler_view_coin_price_list.adapter = adapter
+        binding.recyclerViewCoinPriceList.adapter = adapter
+        binding.recyclerViewCoinPriceList.itemAnimator = null
         viewModel = ViewModelProvider(this)[CoinViewModel::class.java]
 
         viewModel.coinInfoList().observe(this) {
-            adapter.coinInfoList = it
+            adapter.submitList(it)
         }
     }
 

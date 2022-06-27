@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".presentation.CoinDetailActivity" />
-        <activity android:name=".presentation.CoinPriceListActivity"
+        <activity android:name=".presentation.CoinListActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -7,11 +7,11 @@ import nz.co.redice.mycryptorates.data.network.model.CoinInfoJsonContainerDto
 import nz.co.redice.mycryptorates.data.network.model.CoinNameListDto
 import nz.co.redice.mycryptorates.domain.CoinInfo
 import java.sql.Timestamp
+import java.text.NumberFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
 class CoinMapper {
-
 
     fun mapDtoToDbModel(dto: CoinInfoDto) = CoinInfoDbModel(
         fromSymbol = dto.fromSymbol,
@@ -32,11 +32,11 @@ class CoinMapper {
             val currencyJson = jsonObject.getAsJsonObject(coinKey)
             val currencyKeySet = currencyJson.keySet()
             for (currencyKey in currencyKeySet) {
-                val priceInfo = Gson().fromJson(
+                val coinInfoDto = Gson().fromJson(
                     currencyJson.getAsJsonObject(currencyKey),
                     CoinInfoDto::class.java
                 )
-                result.add(priceInfo)
+                result.add(coinInfoDto)
             }
         }
         return result
@@ -51,7 +51,7 @@ class CoinMapper {
     fun mapDbModelToEntity(dbModel: CoinInfoDbModel) = CoinInfo(
         fromSymbol = dbModel.fromSymbol,
         toSymbol = dbModel.toSymbol,
-        price = dbModel.price,
+        price = convertLongIntoCurrency(dbModel.price),
         lastUpdate = convertTimestampToTime(dbModel.lastUpdate),
         highDay = dbModel.highDay,
         lowDay = dbModel.lowDay,
@@ -60,9 +60,10 @@ class CoinMapper {
     )
 
 
+
+
     private fun convertTimestampToTime(timestamp: Long?): String {
-        if (timestamp == null)
-            return ""
+        if (timestamp == null) return EMPTY_STRING
         val stamp = Timestamp(timestamp * 1000)
         val date = Date(stamp.time)
         val pattern = "HH:mm:ss"
@@ -71,8 +72,19 @@ class CoinMapper {
         return sdf.format(date)
     }
 
+    private fun convertLongIntoCurrency(num: Long?): String {
+        return if (num != null) {
+            val format: NumberFormat = NumberFormat.getCurrencyInstance()
+            format.maximumFractionDigits = 2
+            format.currency = Currency.getInstance("USD")
+            format.format(num)
+        } else
+            ""
+    }
+
     companion object {
         const val BASE_IMAGE_URL = "https://cryptocompare.com"
+        const val EMPTY_STRING = ""
     }
 
 }
