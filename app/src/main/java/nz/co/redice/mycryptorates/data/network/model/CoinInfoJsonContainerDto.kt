@@ -1,4 +1,4 @@
-package nz.co.redice.mycryptorates.pojo
+package nz.co.redice.mycryptorates.data.network.model
 
 import com.google.gson.JsonObject
 import com.google.gson.annotations.Expose
@@ -6,8 +6,8 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 
-data class CoinPriceInfoRawData(
+data class CoinInfoJsonContainerDto(
     @SerializedName("RAW")
     @Expose
-    val CoinPriceInfoGsonObject: JsonObject? = null
+    val json: JsonObject? = null
 )

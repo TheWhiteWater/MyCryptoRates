@@ -1,11 +1,12 @@
-package nz.co.redice.mycryptorates
+package nz.co.redice.mycryptorates.presentation
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import kotlinx.android.synthetic.main.activity_coin_price_list.*
-import nz.co.redice.mycryptorates.adapters.CoinInfoAdapter
-import nz.co.redice.mycryptorates.pojo.CoinPriceInfo
+import nz.co.redice.mycryptorates.R
+import nz.co.redice.mycryptorates.presentation.adapters.CoinInfoAdapter
+import nz.co.redice.mycryptorates.data.network.model.CoinInfoDto
 
 class CoinPriceListActivity : AppCompatActivity() {
 
@@ -18,7 +19,7 @@ class CoinPriceListActivity : AppCompatActivity() {
         setContentView(R.layout.activity_coin_price_list)
         val adapter = CoinInfoAdapter(this.baseContext)
         adapter.onCoinClickListener = object : CoinInfoAdapter.OnCoinClickListener {
-            override fun onCoinClicked(coinPriceInfo: CoinPriceInfo) {
+            override fun onCoinClicked(coinPriceInfo: CoinInfoDto) {
                 val intent = CoinDetailActivity.newIntent(
                     this@CoinPriceListActivity,
                     coinPriceInfo.fromSymbol
@@ -30,9 +31,9 @@ class CoinPriceListActivity : AppCompatActivity() {
         recycler_view_coin_price_list.adapter = adapter
         viewModel = ViewModelProvider(this)[CoinViewModel::class.java]
 
-        viewModel.priceList.observe(this, {
+        viewModel.priceList.observe(this) {
             adapter.coinInfoList = it
-        })
+        }
     }
 
 

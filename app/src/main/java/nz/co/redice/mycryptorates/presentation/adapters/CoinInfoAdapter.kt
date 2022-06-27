@@ -1,4 +1,4 @@
-package nz.co.redice.mycryptorates.adapters
+package nz.co.redice.mycryptorates.presentation.adapters
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -8,15 +8,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_coin_detail.view.*
 import kotlinx.android.synthetic.main.item_coin_info.view.*
 import nz.co.redice.mycryptorates.R
-import nz.co.redice.mycryptorates.pojo.CoinPriceInfo
+import nz.co.redice.mycryptorates.data.network.model.CoinInfoDto
 
 class CoinInfoAdapter(private val context: Context) :
     RecyclerView.Adapter<CoinInfoAdapter.CoinInfoViewHolder>() {
 
-    var coinInfoList: List<CoinPriceInfo> = listOf()
+    var coinInfoList: List<CoinInfoDto> = listOf()
         set(value) {
             field = value
             notifyDataSetChanged()
@@ -56,6 +55,6 @@ class CoinInfoAdapter(private val context: Context) :
     }
 
     interface OnCoinClickListener {
-        fun onCoinClicked(coinPriceInfo: CoinPriceInfo)
+        fun onCoinClicked(coinPriceInfo: CoinInfoDto)
     }
 }

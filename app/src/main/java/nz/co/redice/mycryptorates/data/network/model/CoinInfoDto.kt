@@ -1,14 +1,14 @@
-package nz.co.redice.mycryptorates.pojo
+package nz.co.redice.mycryptorates.data.network.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
-import nz.co.redice.mycryptorates.api.ApiFactory.BASE_IMAGE_URL
+import nz.co.redice.mycryptorates.data.network.ApiFactory.BASE_IMAGE_URL
 import nz.co.redice.mycryptorates.utils.convertTimestampToTime
 
 @Entity(tableName = "full_price_list")
-data class CoinPriceInfo(
+data class CoinInfoDto(
 
     @SerializedName("TYPE")
     @Expose

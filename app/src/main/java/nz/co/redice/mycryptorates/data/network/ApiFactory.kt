@@ -1,4 +1,4 @@
-package nz.co.redice.mycryptorates.api
+package nz.co.redice.mycryptorates.data.network
 
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
