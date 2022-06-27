@@ -10,10 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.item_coin_info.view.*
 import nz.co.redice.mycryptorates.R
-import nz.co.redice.mycryptorates.data.network.ApiFactory
-import nz.co.redice.mycryptorates.data.network.model.CoinInfoDto
 import nz.co.redice.mycryptorates.domain.CoinInfo
-import nz.co.redice.mycryptorates.utils.convertTimestampToTime
 
 class CoinInfoAdapter(private val context: Context) :
     RecyclerView.Adapter<CoinInfoAdapter.CoinInfoViewHolder>() {
@@ -41,8 +38,8 @@ class CoinInfoAdapter(private val context: Context) :
                 tvSymbols.text = String.format(symbolsTemplate, fromSymbol, toSymbol)
                 tvPrice.text = price.toString()
                 tvLastUpdated.text =
-                    String.format(updatedTemplate, convertTimestampToTime(lastUpdate))
-                Picasso.get().load(ApiFactory.BASE_IMAGE_URL + imageUrl).into(ivLogoCoin)
+                    String.format(updatedTemplate, lastUpdate)
+                Picasso.get().load(imageUrl).into(ivLogoCoin)
                 itemView.setOnClickListener {
                     onCoinClickListener?.onCoinClicked(this)
                 }

@@ -8,9 +8,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_coin_detail.*
 import nz.co.redice.mycryptorates.R
-import nz.co.redice.mycryptorates.data.mapper.CoinMapper
-import nz.co.redice.mycryptorates.data.network.ApiFactory
-import nz.co.redice.mycryptorates.utils.convertTimestampToTime
 
 class CoinDetailActivity : AppCompatActivity() {
     private lateinit var viewModel: CoinViewModel
@@ -30,10 +27,10 @@ class CoinDetailActivity : AppCompatActivity() {
             tvMinPriceValue.text = it.lowDay.toString()
             tvMaxPriceValue.text = it.highDay.toString()
             tvLastDealValue.text = it.lastMarket
-            tvUpdatedAtValue.text = convertTimestampToTime(it.lastUpdate)
+            tvUpdatedAtValue.text = it.lastUpdate
             tvFromSymbol.text = it.fromSymbol
             tvToCurrency.text = it.toSymbol
-            Picasso.get().load(ApiFactory.BASE_IMAGE_URL + it.imageUrl).into(ivLogoCoinDetail)
+            Picasso.get().load(it.imageUrl).into(ivLogoCoinDetail)
         }
     }
 
