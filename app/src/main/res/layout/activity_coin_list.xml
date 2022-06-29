@@ -7,7 +7,7 @@
     tools:context=".presentation.CoinListActivity">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_coin_price_list"
+        android:id="@+id/recyclerViewCoinInfoList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"

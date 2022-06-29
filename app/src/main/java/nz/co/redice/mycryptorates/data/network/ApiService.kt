@@ -1,3 +1,5 @@
+@file:Suppress("SpellCheckingInspection")
+
 package nz.co.redice.mycryptorates.data.network
 
 import nz.co.redice.mycryptorates.data.network.model.CoinInfoJsonContainerDto
