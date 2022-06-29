@@ -16,7 +16,6 @@ class CoinListActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        viewModel = ViewModelProvider(this)[CoinViewModel::class.java]
         val adapter = CoinInfoAdapter(this.baseContext)
         adapter.onCoinClickListener = object : CoinInfoAdapter.OnCoinClickListener {
             override fun onCoinClicked(coinInfo: CoinInfo) {
@@ -26,8 +25,9 @@ class CoinListActivity : AppCompatActivity() {
                     launchDetailFragment(coinInfo.fromSymbol)
             }
         }
-        binding.recyclerViewCoinPriceList.adapter = adapter
-        binding.recyclerViewCoinPriceList.itemAnimator = null
+        binding.recyclerViewCoinInfoList?.adapter = adapter
+        binding.recyclerViewCoinInfoList?.itemAnimator = null
+        viewModel = ViewModelProvider(this)[CoinViewModel::class.java]
         viewModel.coinInfoList().observe(this) {
             adapter.submitList(it)
         }

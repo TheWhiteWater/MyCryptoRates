@@ -2,8 +2,6 @@ package nz.co.redice.mycryptorates.presentation
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.viewModelScope
-import kotlinx.coroutines.launch
 import nz.co.redice.mycryptorates.data.network.repository.CoinRepositoryImpl
 import nz.co.redice.mycryptorates.domain.GetCoinInfoListUseCase
 import nz.co.redice.mycryptorates.domain.GetCoinInfoUseCase
@@ -17,9 +15,7 @@ class CoinViewModel(application: Application) : AndroidViewModel(application) {
     fun coinInfoList() = getCoinInfoListUseCase()
 
     init {
-        viewModelScope.launch {
             loadDataUseCase()
-        }
     }
 
     fun getDetailInfo(fSym: String) = getCoinInfoUseCase(fSym)

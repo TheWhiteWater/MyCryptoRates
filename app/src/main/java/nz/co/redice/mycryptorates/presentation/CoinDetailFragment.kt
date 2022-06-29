@@ -33,10 +33,10 @@ class CoinDetailFragment : Fragment() {
         viewModel.getDetailInfo(fromSymbol).observe(viewLifecycleOwner) {
             with(binding) {
                 tvPrice.text = it.price.toString()
-                tvMinPrice.text = it.lowDay.toString()
-                tvMaxPrice.text = it.highDay.toString()
+                tvMinPriceLabel.text = it.lowDay.toString()
+                tvMaxPriceLabel.text = it.highDay.toString()
                 tvLastMarket.text = it.lastMarket
-                tvLastUpdate.text = it.lastUpdate
+                tvLastUpdateLabel.text = it.lastUpdate
                 tvFromSymbol.text = it.fromSymbol
                 tvToSymbol.text = it.toSymbol
                 Picasso.get().load(it.imageUrl).into(ivLogoCoin)
@@ -48,8 +48,8 @@ class CoinDetailFragment : Fragment() {
         return requireArguments().getString(EXTRA_FROM_SYMBOL) ?: EMPTY_SYMBOL
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 
