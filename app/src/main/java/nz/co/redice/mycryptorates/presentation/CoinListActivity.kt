@@ -7,13 +7,25 @@ import nz.co.redice.mycryptorates.R
 import nz.co.redice.mycryptorates.databinding.ActivityCoinListBinding
 import nz.co.redice.mycryptorates.domain.CoinInfo
 import nz.co.redice.mycryptorates.presentation.adapters.CoinInfoAdapter
+import javax.inject.Inject
 
 class CoinListActivity : AppCompatActivity() {
 
     private lateinit var viewModel: CoinViewModel
-    private val binding by lazy { ActivityCoinListBinding.inflate(layoutInflater) }
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+
+    private val binding by lazy {
+        ActivityCoinListBinding.inflate(layoutInflater)
+    }
+
+    private val component by lazy {
+        (application as CoinApp).component
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        component.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         val adapter = CoinInfoAdapter(this.baseContext)
@@ -27,7 +39,7 @@ class CoinListActivity : AppCompatActivity() {
         }
         binding.recyclerViewCoinInfoList?.adapter = adapter
         binding.recyclerViewCoinInfoList?.itemAnimator = null
-        viewModel = ViewModelProvider(this)[CoinViewModel::class.java]
+        viewModel = ViewModelProvider(this, viewModelFactory)[CoinViewModel::class.java]
         viewModel.coinInfoList().observe(this) {
             adapter.submitList(it)
         }
