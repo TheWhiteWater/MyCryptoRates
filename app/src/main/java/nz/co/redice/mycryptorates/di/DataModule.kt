@@ -1,6 +1,6 @@
 package nz.co.redice.mycryptorates.di
 
-import android.app.Application
+import android.content.Context
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
@@ -25,9 +25,9 @@ interface DataModule {
         @Provides
         @ApplicationScope
         fun provideCoinInfoDao(
-            application: Application
+            context: Context
         ): CoinInfoDao {
-             return AppDatabase.getInstance(application).coinInfoDao()
+             return AppDatabase.getInstance(context).coinInfoDao()
         }
 
         @Provides
