@@ -1,9 +1,8 @@
 package nz.co.redice.mycryptorates.di
 
-import android.app.Application
+import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
-import nz.co.redice.mycryptorates.presentation.CoinApp
 import nz.co.redice.mycryptorates.presentation.CoinDetailFragment
 import nz.co.redice.mycryptorates.presentation.CoinListActivity
 
@@ -17,8 +16,6 @@ interface ApplicationComponent {
 
     @Component.Factory
     interface Factory {
-        fun create(
-            @BindsInstance application: Application,
-        ): ApplicationComponent
+        fun create(@BindsInstance context: Context): ApplicationComponent
     }
 }

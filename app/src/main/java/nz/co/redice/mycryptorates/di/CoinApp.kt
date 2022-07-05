@@ -1,9 +1,8 @@
-package nz.co.redice.mycryptorates.presentation
+package nz.co.redice.mycryptorates.di
 
 import android.app.Application
 import androidx.work.Configuration
 import nz.co.redice.mycryptorates.data.network.workers.RefreshDataWorkerFactory
-import nz.co.redice.mycryptorates.di.DaggerApplicationComponent
 import javax.inject.Inject
 
 class CoinApp : Application(), Configuration.Provider {

@@ -1,6 +1,6 @@
 package nz.co.redice.mycryptorates.data.network.repository
 
-import android.app.Application
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.Transformations
 import androidx.work.ExistingWorkPolicy
@@ -13,7 +13,7 @@ import nz.co.redice.mycryptorates.domain.CoinRepository
 import javax.inject.Inject
 
 class CoinRepositoryImpl @Inject constructor(
-    private val application: Application,
+    private val context: Context,
     private val mapper: CoinMapper,
     private val coinInfoDao: CoinInfoDao
 ) : CoinRepository {
@@ -32,7 +32,7 @@ class CoinRepositoryImpl @Inject constructor(
     }
 
     override fun loadData() {
-        val workManager = WorkManager.getInstance(application)
+        val workManager = WorkManager.getInstance(context)
         workManager.enqueueUniqueWork(
             RefreshDataWorker.NAME,
             ExistingWorkPolicy.REPLACE,

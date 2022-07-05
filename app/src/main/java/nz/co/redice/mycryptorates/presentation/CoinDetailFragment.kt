@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.squareup.picasso.Picasso
 import nz.co.redice.mycryptorates.databinding.FragmentCoinDetailBinding
+import nz.co.redice.mycryptorates.di.CoinApp
 import javax.inject.Inject
 
 class CoinDetailFragment : Fragment() {

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import nz.co.redice.mycryptorates.R
 import nz.co.redice.mycryptorates.databinding.ActivityCoinListBinding
+import nz.co.redice.mycryptorates.di.CoinApp
 import nz.co.redice.mycryptorates.domain.CoinInfo
 import nz.co.redice.mycryptorates.presentation.adapters.CoinInfoAdapter
 import javax.inject.Inject
