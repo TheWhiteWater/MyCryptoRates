@@ -1,5 +1,7 @@
 package nz.co.redice.mycryptorates.domain
 
+import java.io.Serializable
+
 
 data class CoinInfo(
     val fromSymbol: String,
@@ -10,4 +12,4 @@ data class CoinInfo(
     val lowDay: String?,
     val lastMarket: String?,
     val imageUrl: String
-)
+): Serializable

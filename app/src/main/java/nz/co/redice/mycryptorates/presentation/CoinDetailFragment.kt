@@ -9,7 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.squareup.picasso.Picasso
 import nz.co.redice.mycryptorates.databinding.FragmentCoinDetailBinding
-import nz.co.redice.mycryptorates.di.CoinApp
+import nz.co.redice.mycryptorates.di.CryptoApplication
 import javax.inject.Inject
 
 class CoinDetailFragment : Fragment() {
@@ -24,13 +24,14 @@ class CoinDetailFragment : Fragment() {
         get() = _binding ?: throw RuntimeException("FragmentCoinDetailBinding is null")
 
     private val component by lazy {
-        (requireActivity().application as CoinApp).component
+        (requireActivity().application as CryptoApplication).component
+
     }
 
 
     override fun onAttach(context: Context) {
-        super.onAttach(context)
         component.inject(this)
+        super.onAttach(context)
     }
 
     override fun onCreateView(

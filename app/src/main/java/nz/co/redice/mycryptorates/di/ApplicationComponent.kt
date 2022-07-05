@@ -4,18 +4,23 @@ import android.content.Context
 import dagger.BindsInstance
 import dagger.Component
 import nz.co.redice.mycryptorates.presentation.CoinDetailFragment
-import nz.co.redice.mycryptorates.presentation.CoinListActivity
+import nz.co.redice.mycryptorates.presentation.CoinListFragment
+import nz.co.redice.mycryptorates.presentation.HostActivity
 
 @ApplicationScope
-@Component(modules = [DataModule::class, ViewModelModule::class, WorkerModule::class])
+@Component(modules = [DataModule::class,  WorkerModule::class, ViewModelModule::class])
 interface ApplicationComponent {
 
-    fun inject(activity: CoinListActivity)
+    fun inject(application: CryptoApplication)
+    fun inject(activity: HostActivity)
     fun inject(fragment: CoinDetailFragment)
-    fun inject(application: CoinApp)
+    fun inject(fragment: CoinListFragment)
+
 
     @Component.Factory
-    interface Factory {
-        fun create(@BindsInstance context: Context): ApplicationComponent
+    interface ApplicationComponentFactory {
+        fun create(
+            @BindsInstance context: Context,
+            ): ApplicationComponent
     }
 }
