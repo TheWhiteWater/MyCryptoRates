@@ -1,8 +1,8 @@
 package nz.co.redice.mycryptorates.presentation
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import nz.co.redice.mycryptorates.R
 import nz.co.redice.mycryptorates.databinding.ActivityHostBinding
 import nz.co.redice.mycryptorates.di.CryptoApplication
@@ -14,10 +14,9 @@ class HostActivity : AppCompatActivity() {
         ActivityHostBinding.inflate(layoutInflater)
     }
 
-     private val viewModel: CoinViewModel by lazy {
-         ViewModelProvider(this, viewModelFactory)[CoinViewModel::class.java]
+     private val viewModel: CoinViewModel by viewModels {
+         viewModelFactory
      }
-
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory

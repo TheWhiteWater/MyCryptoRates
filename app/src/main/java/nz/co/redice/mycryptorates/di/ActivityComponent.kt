@@ -8,10 +8,10 @@ import nz.co.redice.mycryptorates.presentation.HostActivity
 @ActivityScope
 @Subcomponent (modules = [ViewModelModule::class])
 interface ActivityComponent {
+
     fun inject(activity: HostActivity)
     fun inject(fragment: CoinDetailFragment)
     fun inject(fragment: CoinListFragment)
-
 
     @Subcomponent.Factory
     interface Factory {

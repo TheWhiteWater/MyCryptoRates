@@ -28,6 +28,9 @@ android {
         viewBinding true
     }
 
+    kotlinOptions {
+        freeCompilerArgs = ['-Xjvm-default=enable']
+    }
 
 }
 
@@ -55,6 +58,8 @@ dependencies {
     implementation 'com.google.dagger:dagger:2.42'
     kapt 'com.google.dagger:dagger-compiler:2.42'
 
+    // Fragment KTX
+    implementation 'androidx.fragment:fragment-ktx:1.5.0'
 }
 
 
