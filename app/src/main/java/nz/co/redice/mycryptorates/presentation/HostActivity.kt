@@ -45,6 +45,8 @@ class HostActivity : AppCompatActivity() {
             .replace(R.id.fragment_list_container, CoinDetailFragment.newInstance(fromSymbol))
             .addToBackStack(null)
             .commit()
+
+
     }
 
     private fun launchDetailFragment(fromSymbol: String) {
