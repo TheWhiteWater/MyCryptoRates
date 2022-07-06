@@ -20,7 +20,6 @@ interface DataModule {
     fun bindCoinRepository(impl: CoinRepositoryImpl): CoinRepository
 
 
-
     companion object {
         @Provides
         @ApplicationScope

@@ -28,15 +28,29 @@ android {
         viewBinding true
     }
 
-
+    kotlinOptions {
+        freeCompilerArgs = ['-Xjvm-default=enable']
+    }
 }
 
 dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.2'
-    implementation 'androidx.core:core-ktx:1.8.0'
+
+    //
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     implementation 'androidx.cardview:cardview:1.0.0'
+
+    implementation 'androidx.core:core-ktx:1.8.0'
+
+    //ViewModel
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.0'
+    //LiveData
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.5.0'
+    //Saved state module for ViewModel
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-savedstate:2.5.0'
+    //Fragment KTX
+    implementation 'androidx.fragment:fragment-ktx:1.5.0'
 
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1"
     implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1"

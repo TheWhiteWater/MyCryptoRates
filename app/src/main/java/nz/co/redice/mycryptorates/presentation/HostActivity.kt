@@ -1,8 +1,8 @@
 package nz.co.redice.mycryptorates.presentation
 
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import nz.co.redice.mycryptorates.R
 import nz.co.redice.mycryptorates.databinding.ActivityHostBinding
 import nz.co.redice.mycryptorates.di.CryptoApplication
@@ -14,29 +14,26 @@ class HostActivity : AppCompatActivity() {
         ActivityHostBinding.inflate(layoutInflater)
     }
 
-     private val viewModel: CoinViewModel by lazy {
-         ViewModelProvider(this, viewModelFactory)[CoinViewModel::class.java]
-     }
-
+    private val daggerComponent by lazy {
+        (application as CryptoApplication).component
+    }
 
     @Inject
-    lateinit var viewModelFactory: ViewModelFactory
+    lateinit var viewModelFactory: CoinViewModelFactory
 
-    private val component by lazy {
-        (application as CryptoApplication).component
-            .getActivityComponentFactory()
-            .create()
+    private val viewModel: CoinViewModel by viewModels {
+        viewModelFactory
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        component.inject(this)
+        daggerComponent.inject(this)
         setContentView(binding.root)
         viewModel.selectedCoinInfo.observe(this) {
             if (isOnePaneMode())
-                    launchDetailActivity(it.fromSymbol)
-                else
-                    launchDetailFragment(it.fromSymbol)
+                launchDetailActivity(it.fromSymbol)
+            else
+                launchDetailFragment(it.fromSymbol)
         }
     }
 

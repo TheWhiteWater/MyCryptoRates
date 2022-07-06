@@ -1,17 +1,14 @@
 package nz.co.redice.mycryptorates.presentation
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.activityViewModels
 import nz.co.redice.mycryptorates.databinding.FragmentCoinListBinding
-import nz.co.redice.mycryptorates.di.CryptoApplication
 import nz.co.redice.mycryptorates.domain.CoinInfo
 import nz.co.redice.mycryptorates.presentation.adapters.CoinInfoAdapter
-import javax.inject.Inject
 
 class CoinListFragment : Fragment() {
 
@@ -19,24 +16,10 @@ class CoinListFragment : Fragment() {
     private val binding: FragmentCoinListBinding
         get() = _binding ?: throw RuntimeException("FragmentCoinListBinding is null")
 
-    private val component by lazy {
-        (requireActivity().application as CryptoApplication).component
-            .getActivityComponentFactory()
-            .create()
-    }
 
-     val viewModel: CoinViewModel by lazy {
-         ViewModelProvider(this, viewModelFactory)[CoinViewModel::class.java]
-     }
+     val viewModel: CoinViewModel by activityViewModels()
 
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-
-    override fun onAttach(context: Context) {
-        component.inject(this)
-        super.onAttach(context)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
