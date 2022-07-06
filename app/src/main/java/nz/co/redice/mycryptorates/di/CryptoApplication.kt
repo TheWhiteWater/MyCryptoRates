@@ -13,7 +13,6 @@ class CryptoApplication : Application(), Configuration.Provider {
     val component = DaggerApplicationComponent.factory().create(this)
 
 
-
     override fun onCreate() {
         component.inject(this)
         super.onCreate()

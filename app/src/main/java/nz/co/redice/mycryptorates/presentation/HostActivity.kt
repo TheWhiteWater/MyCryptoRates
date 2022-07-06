@@ -23,8 +23,6 @@ class HostActivity : AppCompatActivity() {
 
     private val component by lazy {
         (application as CryptoApplication).component
-            .getActivityComponentFactory()
-            .create()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

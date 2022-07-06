@@ -9,7 +9,7 @@ import nz.co.redice.mycryptorates.presentation.CoinViewModel
 @Module
 interface ViewModelModule {
 
-    @ActivityScope
+    @ApplicationScope
     @Binds
     @IntoMap
     @ViewModelKey(CoinViewModel::class)
