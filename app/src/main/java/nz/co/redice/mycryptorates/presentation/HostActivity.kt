@@ -1,7 +1,5 @@
 package nz.co.redice.mycryptorates.presentation
 
-import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -16,20 +14,24 @@ class HostActivity : AppCompatActivity() {
         ActivityHostBinding.inflate(layoutInflater)
     }
 
-    private lateinit var viewModel: CoinViewModel
+     private val viewModel: CoinViewModel by lazy {
+         ViewModelProvider(this, viewModelFactory)[CoinViewModel::class.java]
+     }
+
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
 
     private val component by lazy {
         (application as CryptoApplication).component
+            .getActivityComponentFactory()
+            .create()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         component.inject(this)
         setContentView(binding.root)
-        viewModel = ViewModelProvider(this, viewModelFactory)[CoinViewModel::class.java]
         viewModel.selectedCoinInfo.observe(this) {
             if (isOnePaneMode())
                     launchDetailActivity(it.fromSymbol)

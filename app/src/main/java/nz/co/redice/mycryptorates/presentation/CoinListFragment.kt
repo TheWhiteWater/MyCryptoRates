@@ -21,10 +21,14 @@ class CoinListFragment : Fragment() {
 
     private val component by lazy {
         (requireActivity().application as CryptoApplication).component
-
+            .getActivityComponentFactory()
+            .create()
     }
 
-    private lateinit var viewModel: CoinViewModel
+     val viewModel: CoinViewModel by lazy {
+         ViewModelProvider(this, viewModelFactory)[CoinViewModel::class.java]
+     }
+
 
     @Inject
     lateinit var viewModelFactory: ViewModelFactory
@@ -48,8 +52,6 @@ class CoinListFragment : Fragment() {
         val adapter = CoinInfoAdapter(requireContext())
         binding.recyclerViewCoinList.adapter = adapter
         binding.recyclerViewCoinList.itemAnimator = null
-        viewModel = ViewModelProvider(this, viewModelFactory)[CoinViewModel::class.java]
-
         viewModel.coinInfoList().observe(viewLifecycleOwner) {
             adapter.submitList(it)
         }

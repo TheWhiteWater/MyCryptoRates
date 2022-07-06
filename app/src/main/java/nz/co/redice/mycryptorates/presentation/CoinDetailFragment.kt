@@ -14,18 +14,19 @@ import javax.inject.Inject
 
 class CoinDetailFragment : Fragment() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-    private val viewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[CoinViewModel::class.java]
-    }
     private var _binding: FragmentCoinDetailBinding? = null
     private val binding: FragmentCoinDetailBinding
         get() = _binding ?: throw RuntimeException("FragmentCoinDetailBinding is null")
-
     private val component by lazy {
         (requireActivity().application as CryptoApplication).component
+            .getActivityComponentFactory()
+            .create()
+    }
 
+    @Inject
+    lateinit var viewModelFactory: ViewModelFactory
+    private val viewModel: CoinViewModel by lazy {
+        ViewModelProvider(this, viewModelFactory)[CoinViewModel::class.java]
     }
 
 

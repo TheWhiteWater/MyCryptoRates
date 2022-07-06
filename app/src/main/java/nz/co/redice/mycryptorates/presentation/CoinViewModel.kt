@@ -4,11 +4,13 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import nz.co.redice.mycryptorates.di.ActivityScope
 import nz.co.redice.mycryptorates.domain.CoinInfo
 import nz.co.redice.mycryptorates.domain.GetCoinInfoListUseCase
 import nz.co.redice.mycryptorates.domain.GetCoinInfoUseCase
 import nz.co.redice.mycryptorates.domain.LoadDataUseCase
 import javax.inject.Inject
+
 
 class CoinViewModel @Inject constructor(
     private val getCoinInfoUseCase: GetCoinInfoUseCase,
@@ -19,7 +21,7 @@ class CoinViewModel @Inject constructor(
 
     init {
         loadDataUseCase()
-        Log.d("TAG", "view model init: $this")
+        Log.d("TAGG", "view model init: $this")
     }
 
     private val _selectedCoinInfo = MutableLiveData<CoinInfo>()
