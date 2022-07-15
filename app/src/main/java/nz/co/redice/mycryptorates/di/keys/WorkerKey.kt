@@ -1,4 +1,4 @@
-package nz.co.redice.mycryptorates.di
+package nz.co.redice.mycryptorates.di.keys
 
 import androidx.work.ListenableWorker
 import dagger.MapKey

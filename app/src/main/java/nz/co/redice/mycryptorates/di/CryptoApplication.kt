@@ -1,17 +1,15 @@
 package nz.co.redice.mycryptorates.di
 
-import android.app.Application
+import androidx.multidex.MultiDexApplication
 import androidx.work.Configuration
+import nz.co.redice.mycryptorates.data.database.AppDatabase
+import nz.co.redice.mycryptorates.data.mapper.CoinMapper
+import nz.co.redice.mycryptorates.data.network.ApiFactory
 import nz.co.redice.mycryptorates.data.network.workers.RefreshDataWorkerFactory
-import javax.inject.Inject
 
-class CryptoApplication : Application(), Configuration.Provider {
+class CryptoApplication : MultiDexApplication(), Configuration.Provider {
 
-    @Inject
-    lateinit var workerFactory: RefreshDataWorkerFactory
-
-    val component = DaggerApplicationComponent.factory().create(this)
-
+    val component by lazy { DaggerApplicationComponent.factory().create(this) }
 
     override fun onCreate() {
         component.inject(this)
@@ -20,7 +18,13 @@ class CryptoApplication : Application(), Configuration.Provider {
 
     override fun getWorkManagerConfiguration(): Configuration {
         return Configuration.Builder()
-            .setWorkerFactory(workerFactory)
+            .setWorkerFactory(
+                RefreshDataWorkerFactory(
+                    AppDatabase.getInstance(this).coinInfoDao(),
+                    ApiFactory.apiService,
+                    CoinMapper()
+                )
+            )
             .build()
     }
 }

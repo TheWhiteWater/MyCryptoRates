@@ -22,14 +22,12 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-
         </activity>
-
         <provider
-            android:name="androidx.startup.InitializationProvider"
             android:authorities="androidx.work.WorkManagerInitializer"
+            android:name="androidx.startup.InitializationProvider"
             tools:node="remove"
-            tools:replace="android:authorities" />
+            tools:replace="android:authorities"/>
     </application>
 
 </manifest>
