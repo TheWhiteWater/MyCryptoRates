@@ -1,37 +1,29 @@
 package nz.co.redice.mycryptorates.presentation
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.squareup.picasso.Picasso
+import androidx.fragment.app.activityViewModels
+import com.github.mikephil.charting.data.LineData
+import dagger.hilt.android.AndroidEntryPoint
+import nz.co.redice.mycryptorates.*
 import nz.co.redice.mycryptorates.databinding.FragmentCoinDetailBinding
-import nz.co.redice.mycryptorates.di.CoinApp
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class CoinDetailFragment : Fragment() {
 
-    @Inject
-    lateinit var viewModelFactory: ViewModelFactory
-    private val viewModel by lazy {
-        ViewModelProvider(this, viewModelFactory)[CoinViewModel::class.java]
-    }
     private var _binding: FragmentCoinDetailBinding? = null
     private val binding: FragmentCoinDetailBinding
         get() = _binding ?: throw RuntimeException("FragmentCoinDetailBinding is null")
 
-    private val component by lazy {
-        (requireActivity().application as CoinApp).component
-    }
+    private val viewModel: SharedViewModel by activityViewModels()
 
+    @Inject
+    lateinit var sparkLineStyle: SparkLineStyle
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        component.inject(this)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,13 +40,38 @@ class CoinDetailFragment : Fragment() {
         viewModel.getDetailInfo(fromSymbol).observe(viewLifecycleOwner) {
             with(binding) {
                 tvPrice.text = it.price.toString()
-                tvMinPriceLabel.text = it.lowDay.toString()
-                tvMaxPriceLabel.text = it.highDay.toString()
+                textViewLowPrice.text = it.lowDay.toString()
+                textViewHighPrice.text = it.highDay.toString()
                 tvLastMarket.text = it.lastMarket
-                tvLastUpdateLabel.text = it.lastUpdate
+                tvLastUpdate.text = it.lastUpdate
                 tvFromSymbol.text = it.fromSymbol
-                tvToSymbol.text = it.toSymbol
-                Picasso.get().load(it.imageUrl).into(ivLogoCoin)
+//                tvToSymbol.text = it.toSymbol
+//                Picasso.get().load(it.imageUrl).into(ivLogoCoin)
+            }
+        }
+        viewModel.lineDataSet.observe(viewLifecycleOwner) {
+            if (it.label == getSymbol()) {
+                sparkLineStyle.styleDataSet(requireContext(), it)
+                with(binding.chart) {
+                    sparkLineStyle.styleLineChart(this)
+                    data = LineData(it)
+                    invalidate()
+                }
+            } else {
+                binding.oneDay.isChecked = true
+            }
+        }
+        binding.toggleButtonGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
+            if (isChecked) {
+                when (checkedId) {
+                    R.id.oneDay -> viewModel.makeHistoryRequest(getSymbol(), TWENTY_FOUR_HOURS)
+                    R.id.oneHour -> viewModel.makeHistoryRequest(getSymbol(), ONE_HOUR)
+                    R.id.oneWeek -> viewModel.makeHistoryRequest(getSymbol(), SEVEN_DAYS)
+                    R.id.oneMonth -> viewModel.makeHistoryRequest(getSymbol(), ONE_MONTH)
+                    R.id.threeMonth -> viewModel.makeHistoryRequest(getSymbol(), THREE_MONTHS)
+                    R.id.oneYear -> viewModel.makeHistoryRequest(getSymbol(), ONE_YEAR)
+                    R.id.allPeriod -> viewModel.makeHistoryRequest(getSymbol(), ALL_DATA)
+                }
             }
         }
     }

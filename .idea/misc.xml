@@ -3,11 +3,21 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/workspace/MyCryptoRates/app/src/main/res/layout-land/activity_coin_list.xml" value="0.1" />
-        <entry key="..\:/workspace/MyCryptoRates/app/src/main/res/layout/activity_coin_detail.xml" value="0.4" />
-        <entry key="..\:/workspace/MyCryptoRates/app/src/main/res/layout/activity_coin_list.xml" value="0.3703125" />
-        <entry key="..\:/workspace/MyCryptoRates/app/src/main/res/layout/fragment_coin_detail.xml" value="0.3703125" />
-        <entry key="..\:/workspace/MyCryptoRates/app/src/main/res/layout/item_coin_info.xml" value="0.2074074074074074" />
+        <entry key="..\:/Users/redre/AppData/Local/Android/Sdk/platforms/android-32/data/res/drawable/fade_blue.xml" value="0.1315" />
+        <entry key="..\:/workspace/MyCryptoRates/app/src/main/res/drawable-v24/fade_blue.xml" value="0.1315" />
+        <entry key="..\:/workspace/MyCryptoRates/app/src/main/res/drawable-v24/fade_red.xml" value="0.1315" />
+        <entry key="..\:/workspace/MyCryptoRates/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.111" />
+        <entry key="..\:/workspace/MyCryptoRates/app/src/main/res/drawable/fade_blue.xml" value="0.1315" />
+        <entry key="..\:/workspace/MyCryptoRates/app/src/main/res/drawable/fade_red.xml" value="0.1315" />
+        <entry key="..\:/workspace/MyCryptoRates/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1315" />
+        <entry key="..\:/workspace/MyCryptoRates/app/src/main/res/drawable/red.xml" value="0.1315" />
+        <entry key="..\:/workspace/MyCryptoRates/app/src/main/res/drawable/red_fade.xml" value="0.132" />
+        <entry key="..\:/workspace/MyCryptoRates/app/src/main/res/font/texgyreadventor_regular.xml" value="0.2759259259259259" />
+        <entry key="..\:/workspace/MyCryptoRates/app/src/main/res/layout-land/activity_host.xml" value="0.22135416666666666" />
+        <entry key="..\:/workspace/MyCryptoRates/app/src/main/res/layout/activity_host.xml" value="0.3631256384065373" />
+        <entry key="..\:/workspace/MyCryptoRates/app/src/main/res/layout/fragment_coin_detail.xml" value="0.264" />
+        <entry key="..\:/workspace/MyCryptoRates/app/src/main/res/layout/fragment_coin_list.xml" value="0.33418367346938777" />
+        <entry key="..\:/workspace/MyCryptoRates/app/src/main/res/layout/item_coin_info.xml" value="0.37083333333333335" />
       </map>
     </option>
   </component>

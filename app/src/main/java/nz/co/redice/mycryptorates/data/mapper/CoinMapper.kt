@@ -54,8 +54,8 @@ class CoinMapper @Inject constructor() {
         toSymbol = dbModel.toSymbol,
         price = convertLongIntoCurrency(dbModel.price),
         lastUpdate = convertTimestampToTime(dbModel.lastUpdate),
-        highDay = dbModel.highDay,
-        lowDay = dbModel.lowDay,
+        highDay = convertLongIntoCurrency(dbModel.highDay),
+        lowDay = convertLongIntoCurrency(dbModel.lowDay),
         lastMarket = dbModel.lastMarket,
         imageUrl = dbModel.imageUrl
     )
