@@ -1,6 +1,5 @@
 package nz.co.redice.mycryptorates.presentation
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,30 +7,23 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.github.mikephil.charting.data.LineData
-import nz.co.redice.mycryptorates.R
+import dagger.hilt.android.AndroidEntryPoint
+import nz.co.redice.mycryptorates.*
 import nz.co.redice.mycryptorates.databinding.FragmentCoinDetailBinding
-import nz.co.redice.mycryptorates.di.CryptoApplication
 import javax.inject.Inject
 
+@AndroidEntryPoint
 class CoinDetailFragment : Fragment() {
 
     private var _binding: FragmentCoinDetailBinding? = null
     private val binding: FragmentCoinDetailBinding
         get() = _binding ?: throw RuntimeException("FragmentCoinDetailBinding is null")
 
-    private val viewModel: CoinViewModel by activityViewModels()
+    private val viewModel: SharedViewModel by activityViewModels()
 
     @Inject
     lateinit var sparkLineStyle: SparkLineStyle
 
-    private val component by lazy {
-        (requireActivity().application as CryptoApplication).component
-    }
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        component.inject(this)
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -65,20 +57,20 @@ class CoinDetailFragment : Fragment() {
                     data = LineData(it)
                     invalidate()
                 }
-            }else {
+            } else {
                 binding.oneDay.isChecked = true
             }
         }
         binding.toggleButtonGroup.addOnButtonCheckedListener { _, checkedId, isChecked ->
             if (isChecked) {
                 when (checkedId) {
-                    R.id.oneDay -> viewModel.getHistoricalRequest(getSymbol(), CoinViewModel.TWENTY_FOUR_HOURS)
-                    R.id.oneHour -> viewModel.getHistoricalRequest(getSymbol(), CoinViewModel.ONE_HOUR)
-                    R.id.oneWeek -> viewModel.getHistoricalRequest(getSymbol(), CoinViewModel.SEVEN_DAYS)
-                    R.id.oneMonth -> viewModel.getHistoricalRequest(getSymbol(), CoinViewModel.ONE_MONTH)
-                    R.id.threeMonth -> viewModel.getHistoricalRequest(getSymbol(), CoinViewModel.THREE_MONTHS)
-                    R.id.oneYear -> viewModel.getHistoricalRequest(getSymbol(), CoinViewModel.ONE_YEAR)
-                    R.id.allPeriod -> viewModel.getHistoricalRequest(getSymbol(), CoinViewModel.ALL_DATA)
+                    R.id.oneDay -> viewModel.makeHistoryRequest(getSymbol(), TWENTY_FOUR_HOURS)
+                    R.id.oneHour -> viewModel.makeHistoryRequest(getSymbol(), ONE_HOUR)
+                    R.id.oneWeek -> viewModel.makeHistoryRequest(getSymbol(), SEVEN_DAYS)
+                    R.id.oneMonth -> viewModel.makeHistoryRequest(getSymbol(), ONE_MONTH)
+                    R.id.threeMonth -> viewModel.makeHistoryRequest(getSymbol(), THREE_MONTHS)
+                    R.id.oneYear -> viewModel.makeHistoryRequest(getSymbol(), ONE_YEAR)
+                    R.id.allPeriod -> viewModel.makeHistoryRequest(getSymbol(), ALL_DATA)
                 }
             }
         }

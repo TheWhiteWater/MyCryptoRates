@@ -7,11 +7,12 @@ import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.charts.LineChart
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.LineDataSet
+import dagger.hilt.android.qualifiers.ApplicationContext
 import nz.co.redice.mycryptorates.R
 import javax.inject.Inject
 
 class SparkLineStyle @Inject constructor(
-    private val context: Context
+    @ApplicationContext private val context: Context
 ) {
 
     fun styleLineChart(lineChart: LineChart) = lineChart.apply {

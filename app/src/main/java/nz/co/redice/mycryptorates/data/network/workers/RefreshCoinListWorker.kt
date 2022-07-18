@@ -1,18 +1,19 @@
 package nz.co.redice.mycryptorates.data.network.workers
 
 import android.content.Context
-import android.util.Log
+import androidx.hilt.work.HiltWorker
 import androidx.work.*
-import kotlinx.coroutines.delay
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import nz.co.redice.mycryptorates.data.database.CoinInfoDao
 import nz.co.redice.mycryptorates.data.mapper.CoinMapper
 import nz.co.redice.mycryptorates.data.network.ApiService
 import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 
-class RefreshDataWorker(
-    context: Context,
-    workerParameters: WorkerParameters,
+@HiltWorker
+class RefreshCoinListWorker @AssistedInject constructor(
+    @Assisted context: Context,
+    @Assisted workerParameters: WorkerParameters,
     private val coinInfoDao: CoinInfoDao,
     private val apiService: ApiService,
     private val mapper: CoinMapper
@@ -20,7 +21,6 @@ class RefreshDataWorker(
 
     override suspend fun doWork(): Result {
         try {
-            Log.d("RefreshCoinList", "doWork: started")
             val topCoins = apiService.getTopCoinsInfo(limit = 50)
             val fSyms = mapper.mapNamesListToString(topCoins)
             val gsonContainer = apiService.getFullPriceList(fSyms = fSyms)
@@ -33,7 +33,6 @@ class RefreshDataWorker(
     }
 
 
-
     companion object {
         const val NAME = "RefreshDataWorker"
         const val TAG = "RefreshCoinList"
@@ -43,8 +42,7 @@ class RefreshDataWorker(
             .setRequiredNetworkType(NetworkType.UNMETERED)
             .build()
 
-        val workRequest =
-            PeriodicWorkRequestBuilder<RefreshDataWorker>( 15, TimeUnit.MINUTES)
+        val workRequest = PeriodicWorkRequestBuilder<RefreshCoinListWorker>(15, TimeUnit.MINUTES)
                 .setConstraints(createConstraints())
                 .addTag(TAG)
                 .setBackoffCriteria(

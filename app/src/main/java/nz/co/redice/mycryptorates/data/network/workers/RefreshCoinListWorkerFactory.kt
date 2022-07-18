@@ -8,9 +8,8 @@ import nz.co.redice.mycryptorates.data.database.CoinInfoDao
 import nz.co.redice.mycryptorates.data.mapper.CoinMapper
 import nz.co.redice.mycryptorates.data.network.ApiService
 import javax.inject.Inject
-import javax.inject.Provider
 
-class RefreshDataWorkerFactory(
+class RefreshCoinListWorkerFactory @Inject constructor(
     private val coinInfoDao: CoinInfoDao,
     private val apiService: ApiService,
     private val mapper: CoinMapper
@@ -19,7 +18,7 @@ class RefreshDataWorkerFactory(
     override fun createWorker(
         appContext: Context, workerClassName: String, workerParameters: WorkerParameters
     ): ListenableWorker {
-        return RefreshDataWorker(
+        return RefreshCoinListWorker(
             appContext,
             workerParameters,
             coinInfoDao,

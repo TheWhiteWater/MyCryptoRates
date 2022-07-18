@@ -16,7 +16,7 @@ class CoinListFragment : Fragment() {
     private val binding: FragmentCoinListBinding
         get() = _binding ?: throw RuntimeException("FragmentCoinListBinding is null")
 
-    val viewModel: CoinViewModel by activityViewModels()
+    val viewModel: SharedViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,

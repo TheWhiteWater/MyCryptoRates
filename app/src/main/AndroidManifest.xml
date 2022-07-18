@@ -24,10 +24,17 @@
             </intent-filter>
         </activity>
         <provider
-            android:authorities="androidx.work.WorkManagerInitializer"
             android:name="androidx.startup.InitializationProvider"
-            tools:node="remove"
-            tools:replace="android:authorities"/>
+            android:authorities="${applicationId}.androidx-startup"
+            android:exported="false"
+            tools:node="merge">
+            <meta-data
+                android:name="androidx.work.WorkManagerInitializer"
+                android:value="androidx.startup"
+                tools:node="remove" />
+        </provider>
+
+
     </application>
 
 </manifest>

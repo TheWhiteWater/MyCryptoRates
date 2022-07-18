@@ -2,29 +2,20 @@ package nz.co.redice.mycryptorates.di
 
 import androidx.multidex.MultiDexApplication
 import androidx.work.Configuration
-import nz.co.redice.mycryptorates.data.database.AppDatabase
-import nz.co.redice.mycryptorates.data.mapper.CoinMapper
-import nz.co.redice.mycryptorates.data.network.ApiFactory
-import nz.co.redice.mycryptorates.data.network.workers.RefreshDataWorkerFactory
+import dagger.hilt.android.HiltAndroidApp
+import nz.co.redice.mycryptorates.data.network.workers.RefreshCoinListWorkerFactory
+import javax.inject.Inject
 
+@HiltAndroidApp
 class CryptoApplication : MultiDexApplication(), Configuration.Provider {
 
-    val component by lazy { DaggerApplicationComponent.factory().create(this) }
-
-    override fun onCreate() {
-        component.inject(this)
-        super.onCreate()
-    }
+    @Inject
+    lateinit var workerFactory: RefreshCoinListWorkerFactory
 
     override fun getWorkManagerConfiguration(): Configuration {
         return Configuration.Builder()
-            .setWorkerFactory(
-                RefreshDataWorkerFactory(
-                    AppDatabase.getInstance(this).coinInfoDao(),
-                    ApiFactory.apiService,
-                    CoinMapper()
-                )
-            )
-            .build()
+                .setWorkerFactory(workerFactory)
+                .setMinimumLoggingLevel(android.util.Log.DEBUG)
+                .build()
     }
 }
